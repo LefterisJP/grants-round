@@ -77,5 +77,12 @@ module.exports = {
       add: plugins,
     },
   },
-  plugins: [{ plugin: CracoEsbuildPlugin }],
+  plugins: [
+    {
+      plugin: CracoEsbuildPlugin,
+      options: {
+        skipEsbuildJest: true,
+      },
+    },
+  ],
 };
