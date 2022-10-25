@@ -29,7 +29,9 @@ export function ApplicationLogo(props: {
   classNameOverride?: string;
 }) {
   const applicationLogoImage = props.application.project?.logoImg
-    ? `https://${process.env.REACT_APP_PINATA_GATEWAY}/ipfs/${props.application.project.logoImg}`
+    ? `https://${import.meta.env.VITE_PINATA_GATEWAY}/ipfs/${
+        props.application.project.logoImg
+      }`
     : DefaultLogoImage;
 
   return (
@@ -55,7 +57,9 @@ export function ApplicationBanner(props: {
   classNameOverride?: string;
 }) {
   const applicationBannerImage = props.application.project?.bannerImg
-    ? `https://${process.env.REACT_APP_PINATA_GATEWAY}/ipfs/${props.application.project.bannerImg}`
+    ? `https://${import.meta.env.VITE_PINATA_GATEWAY}/ipfs/${
+        props.application.project.bannerImg
+      }`
     : DefaultBannerImage;
 
   return (

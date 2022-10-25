@@ -372,7 +372,9 @@ export function ViewGrantsExplorerButton(props: ViewGrantsExplorerButtonType) {
 }
 
 function redirectToGrantExplorer(chainId: string, roundId: string | undefined) {
-  const url = `${process.env.REACT_APP_GRANT_EXPLORER}/#/round/${chainId}/${roundId}`;
+  const url = `${
+    import.meta.env.VITE_GRANT_EXPLORER
+  }/#/round/${chainId}/${roundId}`;
   setTimeout(() => {
     window.open(url, "_blank", "noopener,noreferrer");
   }, 1000);

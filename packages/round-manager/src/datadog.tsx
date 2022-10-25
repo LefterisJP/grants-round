@@ -9,10 +9,10 @@ import { datadogLogs } from "@datadog/browser-logs";
 export const initDatadog = () => {
   // Init datadog-rum
   datadogRum.init({
-    applicationId: process.env.REACT_APP_DATADOG_APPLICATION_ID || "",
-    clientToken: process.env.REACT_APP_DATADOG_CLIENT_TOKEN || "",
-    site: process.env.REACT_APP_DATADOG_SITE || "datadoghq.eu",
-    service: process.env.REACT_APP_DATADOG_SERVICE || "round-manager-staging",
+    applicationId: import.meta.env.VITE_DATADOG_APPLICATION_ID || "",
+    clientToken: import.meta.env.VITE_DATADOG_CLIENT_TOKEN || "",
+    site: import.meta.env.VITE_DATADOG_SITE || "datadoghq.eu",
+    service: import.meta.env.VITE_DATADOG_SERVICE || "round-manager-staging",
     // Specify a version number to identify the deployed version of your application in Datadog
     // version: '1.0.0',
     sampleRate: 100,
@@ -23,7 +23,7 @@ export const initDatadog = () => {
 
   // Init datadog-logs
   datadogLogs.init({
-    clientToken: process.env.REACT_APP_DATADOG_CLIENT_TOKEN || "",
+    clientToken: import.meta.env.VITE_DATADOG_CLIENT_TOKEN || "",
     site: "datadoghq.eu",
     forwardErrorsToLogs: true,
     sampleRate: 100,
