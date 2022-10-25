@@ -25,6 +25,7 @@ if (process.env.REACT_APP_ENV === "production") {
     })
   );
 }
+const CracoEsbuildPlugin = require("craco-esbuild");
 
 module.exports = {
   webpack: {
@@ -76,4 +77,5 @@ module.exports = {
       add: plugins,
     },
   },
+  plugins: [{ plugin: CracoEsbuildPlugin }],
 };
