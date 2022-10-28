@@ -13,6 +13,8 @@ import {
 } from "../../../test-utils";
 import { useDisconnect, useSwitchNetwork } from "wagmi";
 import { useParams } from "react-router-dom";
+import { getMockWallet } from "../../common/__mocks__/Auth";
+import { useWallet } from "../../common/Auth";
 
 jest.mock("../../common/Auth");
 jest.mock("wagmi");
@@ -36,16 +38,13 @@ jest.mock("react-router-dom", () => ({
   useParams: jest.fn(),
 }));
 
-jest.mock("../../common/Auth", () => ({
-  useWallet: () => ({
-    chain: {},
-    address: mockRoundData.operatorWallets![0],
-    provider: { getNetwork: () => ({ chainId: "0" }) },
-  }),
-}));
+jest.mock("../../common/Auth");
 
 describe("View Round", () => {
   beforeEach(() => {
+    (useWallet as jest.Mock).mockReturnValue(
+      getMockWallet({ addressToUse: mockRoundData.operatorWallets![0] })
+    );
     (useParams as jest.Mock).mockImplementation(() => {
       return {
         id: mockRoundData.id,

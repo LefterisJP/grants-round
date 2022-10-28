@@ -32,22 +32,12 @@ import {
   GrantApplication,
   ProgressStatus,
 } from "../../api/types";
+import { getMockWallet } from "../../common/__mocks__/Auth";
 
 jest.mock("../../api/application");
 jest.mock("../../common/Auth");
 
 const mockAddress = "0x0";
-const mockWallet = {
-  address: mockAddress,
-  signer: {
-    getChainId: () => {
-      /* do nothing */
-    },
-  },
-  chain: {
-    name: "abc",
-  },
-};
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
@@ -73,7 +63,9 @@ const verifyCredentialMock = jest.spyOn(
 
 describe("ViewApplicationPage", () => {
   beforeEach(() => {
-    (useWallet as jest.Mock).mockImplementation(() => mockWallet);
+    (useWallet as jest.Mock).mockReturnValue(
+      getMockWallet({ addressToUse: mockAddress })
+    );
     (useSwitchNetwork as any).mockReturnValue({ chains: [] });
     (useDisconnect as any).mockReturnValue({});
   });
@@ -95,10 +87,9 @@ describe("ViewApplicationPage", () => {
     const application = makeGrantApplicationData({ applicationIdOverride });
     (getApplicationById as any).mockResolvedValue(application);
     const wrongAddress = faker.finance.ethereumAddress();
-    (useWallet as jest.Mock).mockImplementation(() => ({
-      ...mockWallet,
-      address: wrongAddress,
-    }));
+    (useWallet as jest.Mock).mockReturnValue(
+      getMockWallet({ addressToUse: wrongAddress })
+    );
 
     renderWithContext(<ViewApplicationPage />, { applications: [application] });
     expect(screen.getByText("Access Denied!")).toBeInTheDocument();
@@ -223,7 +214,9 @@ describe("ViewApplicationPage", () => {
 
 describe("ViewApplicationPage verification badges", () => {
   beforeEach(() => {
-    (useWallet as jest.Mock).mockImplementation(() => mockWallet);
+    (useWallet as jest.Mock).mockReturnValue(
+      getMockWallet({ addressToUse: mockAddress })
+    );
     (useSwitchNetwork as any).mockReturnValue({ chains: [] });
     (useDisconnect as any).mockReturnValue({});
   });

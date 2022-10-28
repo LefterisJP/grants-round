@@ -9,6 +9,7 @@ import {
 } from "../../../test-utils";
 import { faker } from "@faker-js/faker";
 import { Program, ProgressStatus } from "../../api/types";
+import { getMockWallet } from "../../common/__mocks__/Auth";
 
 const programId = faker.datatype.number().toString();
 const useParamsFn = () => ({ id: programId });
@@ -32,11 +33,9 @@ describe("<ViewProgram />", () => {
 
     stubProgram = makeProgramData({ id: programId });
 
-    (useWallet as jest.Mock).mockReturnValue({
-      chain: {},
-      address: stubProgram.operatorWallets[0],
-      provider: { getNetwork: () => ({ chainId: "0x0" }) },
-    });
+    (useWallet as jest.Mock).mockReturnValue(
+      getMockWallet({ addressToUse: stubProgram.operatorWallets[0] })
+    );
   });
 
   it("should display NotFoundPage when no program is found", () => {
@@ -51,11 +50,7 @@ describe("<ViewProgram />", () => {
   });
 
   it("should display access denied when wallet accessing is not program operator", () => {
-    (useWallet as jest.Mock).mockReturnValue({
-      chain: {},
-      address: faker.finance.ethereumAddress(),
-      provider: { getNetwork: () => ({ chainId: "0x0" }) },
-    });
+    (useWallet as jest.Mock).mockReturnValue(getMockWallet());
 
     render(
       wrapWithReadProgramContext(
@@ -97,11 +92,9 @@ describe("<ViewProgram />", () => {
     ];
 
     const stubProgram = makeProgramData({ id: programId, operatorWallets });
-    (useWallet as jest.Mock).mockReturnValue({
-      chain: {},
-      address: stubProgram.operatorWallets[0],
-      provider: { getNetwork: () => ({ chainId: "0x0" }) },
-    });
+    (useWallet as jest.Mock).mockReturnValue(
+      getMockWallet({ addressToUse: stubProgram.operatorWallets[0] })
+    );
 
     render(
       wrapWithReadProgramContext(

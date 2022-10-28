@@ -4,12 +4,14 @@ import { faker } from "@faker-js/faker";
 import { RoundDetailForm } from "../RoundDetailForm";
 import ApplicationEligibilityForm from "../ApplicationEligibilityForm";
 import { RoundApplicationForm } from "../RoundApplicationForm";
-import { useWallet } from "../../common/Auth";
 import * as FormWizardImport from "../../common/FormWizard";
 import { fireEvent, screen } from "@testing-library/react";
+import { mockWallet } from "../../common/__mocks__/Auth";
 
 jest.mock("../../common/Navbar");
-jest.mock("../../common/Auth");
+jest.mock("../../common/Auth", () => ({
+  useWallet: () => mockWallet,
+}));
 const formWizardSpy = jest.spyOn(FormWizardImport, "FormWizard");
 
 const programId = faker.finance.ethereumAddress();
@@ -24,14 +26,6 @@ jest.mock("react-router-dom", () => ({
 }));
 
 describe("<CreateRoundPage />", () => {
-  beforeEach(() => {
-    (useWallet as jest.Mock).mockReturnValue({
-      chain: {},
-      address: "0x0",
-      provider: { getNetwork: () => ({ chainId: "0x0" }) },
-    });
-  });
-
   it("sends program to form wizard", () => {
     const programs = [makeProgramData({ id: programId })];
 

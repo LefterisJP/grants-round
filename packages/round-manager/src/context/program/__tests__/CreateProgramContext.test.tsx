@@ -8,15 +8,7 @@ import {
   useCreateProgram,
 } from "../CreateProgramContext";
 import { faker } from "@faker-js/faker";
-
-const mockWallet = {
-  address: "0x0",
-  signer: {
-    getChainId: () => {
-      /* do nothing.*/
-    },
-  },
-};
+import { mockWallet } from "../../../features/common/__mocks__/Auth";
 
 jest.mock("../../../features/api/program");
 jest.mock("../../../features/api/ipfs");

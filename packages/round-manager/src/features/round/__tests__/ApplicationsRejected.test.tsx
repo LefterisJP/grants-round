@@ -25,6 +25,7 @@ import {
   updateRoundContract,
 } from "../../api/application";
 import { ProgressStatus } from "../../api/types";
+import { mockWallet } from "../../common/__mocks__/Auth";
 
 jest.mock("../../api/application");
 jest.mock("react-router-dom", () => ({
@@ -36,16 +37,7 @@ jest.mock("react-router-dom", () => ({
 const roundIdOverride = "some-round-id";
 
 jest.mock("../../common/Auth", () => ({
-  useWallet: () => ({
-    chain: {},
-    address: "0x0",
-    signer: {
-      getChainId: () => {
-        /* do nothing */
-      },
-    },
-    provider: { getNetwork: () => ({ chainId: "0" }) },
-  }),
+  useWallet: () => mockWallet,
 }));
 
 const grantApplications = [

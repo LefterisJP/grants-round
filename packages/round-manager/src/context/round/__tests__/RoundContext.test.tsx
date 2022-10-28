@@ -4,6 +4,7 @@ import { render, screen } from "@testing-library/react";
 import { makeRoundData } from "../../../test-utils";
 import { getRoundById, listRounds } from "../../../features/api/round";
 import { ProgressStatus, Round } from "../../../features/api/types";
+import { mockWallet } from "../../../features/common/__mocks__/Auth";
 
 jest.mock("../../../features/api/round");
 jest.mock("wagmi");
@@ -13,14 +14,6 @@ jest.mock("@rainbow-me/rainbowkit", () => ({
 jest.mock("../../../features/common/Auth", () => ({
   useWallet: () => mockWallet,
 }));
-const mockWallet = {
-  address: "0x0",
-  signer: {
-    getChainId: () => {
-      /* do nothing.*/
-    },
-  },
-};
 
 describe("<RoundProvider />", () => {
   beforeEach(() => {

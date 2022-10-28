@@ -10,15 +10,7 @@ import { deployRoundContract } from "../../../features/api/round";
 import { waitForSubgraphSyncTo } from "../../../features/api/subgraph";
 import { deployMerklePayoutStrategyContract } from "../../../features/api/payoutStrategy/merklePayoutStrategy";
 import { deployQFVotingContract } from "../../../features/api/votingStrategy/qfVotingStrategy";
-
-const mockWallet = {
-  address: "0x0",
-  signer: {
-    getChainId: () => {
-      /* do nothing.*/
-    },
-  },
-};
+import { mockWallet } from "../../../features/common/__mocks__/Auth";
 
 jest.mock("../../../features/api/votingStrategy/qfVotingStrategy");
 jest.mock("../../../features/api/payoutStrategy/merklePayoutStrategy");

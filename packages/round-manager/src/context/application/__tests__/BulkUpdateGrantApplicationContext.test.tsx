@@ -11,20 +11,13 @@ import {
 } from "../../../features/api/application";
 import { waitForSubgraphSyncTo } from "../../../features/api/subgraph";
 import { faker } from "@faker-js/faker";
+import { mockWallet } from "../../../features/common/__mocks__/Auth";
 
 jest.mock("../../../features/api/application");
 jest.mock("../../../features/api/subgraph");
 jest.mock("../../../features/common/Auth", () => ({
   useWallet: () => mockWallet,
 }));
-const mockWallet = {
-  address: "0x0",
-  signer: {
-    getChainId: () => {
-      /* do nothing.*/
-    },
-  },
-};
 
 describe("<BulkUpdateGrantApplicationProvider />", () => {
   beforeEach(() => {

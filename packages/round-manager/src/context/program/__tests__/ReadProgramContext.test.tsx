@@ -7,15 +7,7 @@ import { render, screen } from "@testing-library/react";
 import { makeProgramData } from "../../../test-utils";
 import { getProgramById, listPrograms } from "../../../features/api/program";
 import { Program, ProgressStatus } from "../../../features/api/types";
-
-const mockWallet = {
-  address: "0x0",
-  signer: {
-    getChainId: () => {
-      /* do nothing.*/
-    },
-  },
-};
+import { mockWallet } from "../../../features/common/__mocks__/Auth";
 
 jest.mock("../../../features/api/program");
 jest.mock("../../../features/common/Auth", () => ({

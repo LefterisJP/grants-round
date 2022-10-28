@@ -1,6 +1,5 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import CreateProgramPage from "../CreateProgramPage";
-import { useWallet } from "../../common/Auth";
 import { ProgressStatus } from "../../api/types";
 import { saveToIPFS } from "../../api/ipfs";
 import {
@@ -9,9 +8,12 @@ import {
   initialCreateProgramState,
 } from "../../../context/program/CreateProgramContext";
 import { MemoryRouter } from "react-router-dom";
+import { mockWallet } from "../../common/__mocks__/Auth";
 
 jest.mock("../../api/ipfs");
-jest.mock("../../common/Auth");
+jest.mock("../../common/Auth", () => ({
+  useWallet: () => mockWallet,
+}));
 jest.mock("@rainbow-me/rainbowkit", () => ({
   ConnectButton: jest.fn(),
 }));
@@ -25,7 +27,6 @@ describe("<CreateProgramPage />", () => {
   let consoleErrorSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    (useWallet as jest.Mock).mockReturnValue({ chain: {} });
     (saveToIPFS as jest.Mock).mockImplementation(() => {
       /* do nothing */
     });

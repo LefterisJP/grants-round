@@ -2,13 +2,10 @@ import ListProgramPage from "../ListProgramPage";
 import { screen } from "@testing-library/react";
 import { makeProgramData, renderWithProgramContext } from "../../../test-utils";
 import { ProgressStatus } from "../../api/types";
+import { mockWallet } from "../../common/__mocks__/Auth";
 
 jest.mock("../../common/Auth", () => ({
-  useWallet: () => ({
-    chain: {},
-    address: "0x0",
-    provider: { getNetwork: () => ({ chainId: "0" }) },
-  }),
+  useWallet: () => mockWallet,
 }));
 jest.mock("wagmi");
 jest.mock("@rainbow-me/rainbowkit", () => ({

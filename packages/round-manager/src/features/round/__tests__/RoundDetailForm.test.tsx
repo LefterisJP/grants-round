@@ -6,11 +6,13 @@ import { FormStepper } from "../../common/FormStepper";
 import { RoundDetailForm } from "../RoundDetailForm";
 import { FormContext } from "../../common/FormWizard";
 import { ChainId, CHAINS, getPayoutTokenOptions } from "../../api/utils";
-import { useWallet } from "../../common/Auth";
 import { faker } from "@faker-js/faker";
 import moment from "moment";
+import { mockWallet } from "../../common/__mocks__/Auth";
 
-jest.mock("../../common/Auth");
+jest.mock("../../common/Auth", () => ({
+  useWallet: () => mockWallet,
+}));
 jest.mock("@rainbow-me/rainbowkit", () => ({
   ConnectButton: jest.fn(),
 }));
@@ -19,12 +21,6 @@ jest.mock("../../../constants", () => ({
   ...jest.requireActual("../../../constants"),
   errorModalDelayMs: 0, // NB: use smaller delay for faster tests
 }));
-
-beforeEach(() => {
-  (useWallet as jest.Mock).mockReturnValue({
-    chain: { id: ChainId.GOERLI_CHAIN_ID },
-  });
-});
 
 describe("<RoundDetailForm />", () => {
   it("renders round name input", async () => {

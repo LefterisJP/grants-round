@@ -4,7 +4,6 @@ import {
   initialQuestions,
   RoundApplicationForm,
 } from "../RoundApplicationForm";
-import { useWallet } from "../../common/Auth";
 import { FormStepper } from "../../common/FormStepper";
 import { MemoryRouter } from "react-router-dom";
 import {
@@ -21,11 +20,14 @@ import { randomInt } from "crypto";
 import { faker } from "@faker-js/faker";
 import { deployMerklePayoutStrategyContract } from "../../api/payoutStrategy/merklePayoutStrategy";
 import { deployQFVotingContract } from "../../api/votingStrategy/qfVotingStrategy";
+import { mockWallet } from "../../common/__mocks__/Auth";
 
 jest.mock("../../api/ipfs");
 jest.mock("../../api/round");
 jest.mock("../../api/subgraph");
-jest.mock("../../common/Auth");
+jest.mock("../../common/Auth", () => ({
+  useWallet: () => mockWallet,
+}));
 jest.mock("../../api/payoutStrategy/merklePayoutStrategy");
 jest.mock("../../api/votingStrategy/qfVotingStrategy");
 jest.mock("@rainbow-me/rainbowkit", () => ({
@@ -47,18 +49,6 @@ const randomMetadata = {
 
 describe("<RoundApplicationForm />", () => {
   beforeEach(() => {
-    (useWallet as jest.Mock).mockReturnValue({
-      chain: { name: "my blockchain" },
-      provider: {
-        getNetwork: () => ({
-          chainId: 0,
-        }),
-      },
-      signer: {
-        getChainId: () => 0,
-      },
-      address: "0x0",
-    });
     (saveToIPFS as jest.Mock).mockResolvedValue("some ipfs hash");
     (deployQFVotingContract as jest.Mock).mockResolvedValue({
       votingContractAddress: "0xVotingContract",
@@ -210,21 +200,6 @@ describe("<RoundApplicationForm />", () => {
 });
 
 describe("Application Form Builder", () => {
-  beforeEach(() => {
-    (useWallet as jest.Mock).mockReturnValue({
-      chain: { name: "my blockchain" },
-      provider: {
-        getNetwork: () => ({
-          chainId: 0,
-        }),
-      },
-      signer: {
-        getChainId: () => 0,
-      },
-      address: "0x0",
-    });
-  });
-
   it("displays the four default questions", () => {
     renderWithContext(
       <RoundApplicationForm
